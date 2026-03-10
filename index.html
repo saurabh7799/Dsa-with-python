@@ -3,10 +3,471 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Page</title>
+    <title>Adobe Analytics Organization Structure</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+       
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+       
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+       
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+       
+        .org-level {
+            background: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(233, 69, 96, 0.3);
+        }
+       
+        .org-level h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+       
+        .org-level .example {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.95rem;
+        }
+       
+        .ids-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+       
+        .id-box {
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #e94560;
+        }
+       
+        .id-box h3 {
+            color: #e94560;
+            margin-bottom: 10px;
+        }
+       
+        .id-box code {
+            background: rgba(233, 69, 96, 0.2);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            color: #ff6b6b;
+        }
+       
+        .report-suites {
+            background: linear-gradient(135deg, #533483 0%, #7952b3 100%);
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 10px 40px rgba(83, 52, 131, 0.3);
+        }
+       
+        .report-suites h2 {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+       
+        .rsid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 20px;
+        }
+       
+        .rsid-box {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+       
+        .rsid-box h3 {
+            color: #ffd93d;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255,255,255,0.2);
+        }
+       
+        .rsid-box h3 code {
+            background: rgba(255, 217, 61, 0.2);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+       
+        .data-section {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+        }
+       
+        .dimensions {
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+        }
+       
+        .metrics {
+            background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);
+        }
+       
+        .events {
+            background: linear-gradient(135deg, #fdcb6e 0%, #ffeaa7 100%);
+            color: #2d3436;
+        }
+       
+        .data-section h4 {
+            margin-bottom: 12px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+       
+        .data-section ul {
+            list-style: none;
+            display: grid;
+            gap: 8px;
+        }
+       
+        .data-section li {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+       
+        .data-section li .var-name {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+       
+        .data-section li .var-example {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            background: rgba(0,0,0,0.2);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+       
+        .events li .var-example {
+            background: rgba(0,0,0,0.15);
+        }
+       
+        .connector {
+            width: 4px;
+            height: 30px;
+            background: linear-gradient(to bottom, #e94560, #533483);
+            margin: 0 auto;
+        }
+       
+        .arrow {
+            text-align: center;
+            font-size: 2rem;
+            color: #e94560;
+            margin: 10px 0;
+        }
+       
+        .legend {
+            margin-top: 40px;
+            padding: 25px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+       
+        .legend h3 {
+            margin-bottom: 15px;
+            color: #ffd93d;
+        }
+       
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+       
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+       
+        .legend-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+        }
+       
+        .legend-color.org { background: linear-gradient(135deg, #e94560, #ff6b6b); }
+        .legend-color.rs { background: linear-gradient(135deg, #533483, #7952b3); }
+        .legend-color.dim { background: linear-gradient(135deg, #00b894, #00cec9); }
+        .legend-color.met { background: linear-gradient(135deg, #0984e3, #74b9ff); }
+        .legend-color.evt { background: linear-gradient(135deg, #fdcb6e, #ffeaa7); }
+       
+        @media (max-width: 900px) {
+            .ids-container, .rsid-container, .legend-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello World version 1</h1>
-    <p>Welcome to my website for the first time.</p>
+    <div class="container">
+        <h1>Adobe Analytics Organization Structure</h1>
+       
+        <!-- Organization Level -->
+        <div class="org-level">
+            <h2>Organization (Company Level Account)</h2>
+            <p>This represents the company that owns the Adobe Analytics account.</p>
+            <div class="example">
+                <strong>Example:</strong> ABC Retail Company
+            </div>
+        </div>
+       
+        <div class="arrow">▼</div>
+       
+        <!-- IDs -->
+        <div class="ids-container">
+            <div class="id-box">
+                <h3>Org ID</h3>
+                <p>A unique identifier assigned by Adobe to the company.</p>
+                <p style="margin-top: 10px;">Used for authentication and API access.</p>
+                <p style="margin-top: 15px;"><strong>Example:</strong> <code>ABC123@AdobeOrg</code></p>
+            </div>
+            <div class="id-box">
+                <h3>Global Company ID</h3>
+                <p>A short identifier used in API calls to access data.</p>
+                <p style="margin-top: 10px;"><strong>Example:</strong> <code>mycompany</code></p>
+                <p style="margin-top: 15px; font-size: 0.85rem;">
+                    API Endpoint:<br>
+                    <code style="font-size: 0.8rem;">https://analytics.adobe.io/api/mycompany/reports</code>
+                </p>
+            </div>
+        </div>
+       
+        <div class="arrow">▼</div>
+       
+        <!-- Report Suites -->
+        <div class="report-suites">
+            <h2>Report Suites (Data Containers / Databases)</h2>
+            <p>Report suites store analytics data for a specific website, mobile app, or digital property.</p>
+           
+            <div class="rsid-container">
+                <!-- Global Site Report Suite -->
+                <div class="rsid-box">
+                    <h3>rsid: <code>company_global_site</code></h3>
+                    <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 15px;">
+                        Analytics data collected from the main company website.
+                    </p>
+                   
+                    <div class="data-section dimensions">
+                        <h4>📊 Dimensions (WHAT - Descriptive Attributes)</h4>
+                        <ul>
+                            <li>
+                                <span class="var-name">variables/page</span>
+                                <span class="var-example">"/home"</span>
+                            </li>
+                            <li>
+                                <span class="var-name">variables/country</span>
+                                <span class="var-example">"India"</span>
+                            </li>
+                            <li>
+                                <span class="var-name">variables/device</span>
+                                <span class="var-example">"Mobile"</span>
+                            </li>
+                            <li>
+                                <span class="var-name">variables/browser</span>
+                                <span class="var-example">"Chrome"</span>
+                            </li>
+                            <li>
+                                <span class="var-name">variables/campaign</span>
+                                <span class="var-example">"Summer Sale"</span>
+                            </li>
+                        </ul>
+                    </div>
+                   
+                    <div class="data-section metrics">
+                        <h4>📈 Metrics (HOW MUCH - Numerical Values)</h4>
+                        <ul>
+                            <li>
+                                <span class="var-name">metrics/visits</span>
+                                <span class="var-example">8,000</span>
+                            </li>
+                            <li>
+                                <span class="var-name">metrics/pageviews</span>
+                                <span class="var-example">12,000</span>
+                            </li>
+                            <li>
+                                <span class="var-name">metrics/revenue</span>
+                                <span class="var-example">$25,000</span>
+                            </li>
+                            <li>
+                                <span class="var-name">metrics/orders</span>
+                                <span class="var-example">450</span>
+                            </li>
+                            <li>
+                                <span class="var-name">metrics/bounceRate</span>
+                                <span class="var-example">35%</span>
+                            </li>
+                        </ul>
+                    </div>
+                   
+                    <div class="data-section events">
+                        <h4>⚡ Events (User Actions)</h4>
+                        <ul>
+                            <li>
+                                <span class="var-name">event1</span>
+                                <span class="var-example">Add to Cart</span>
+                            </li>
+                            <li>
+                                <span class="var-name">event2</span>
+                                <span class="var-example">Checkout</span>
+                            </li>
+                            <li>
+                                <span class="var-name">event3</span>
+                                <span class="var-example">Purchase</span>
+                            </li>
+                            <li>
+                                <span class="var-name">event4</span>
+                                <span class="var-example">Login</span>
+                            </li>
+                            <li>
+                                <span class="var-name">event5</span>
+                                <span class="var-example">Newsletter Signup</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+               
+                <!-- Mobile App Report Suite -->
+                <div class="rsid-box">
+                    <h3>rsid: <code>company_mobile_app</code></h3>
+                    <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 15px;">
+                        Analytics data collected from the mobile application.
+                    </p>
+                   
+                    <div class="data-section dimensions">
+                        <h4>📊 Dimensions (WHAT - Descriptive Attributes)</h4>
+                        <ul>
+                            <li>
+                                <span class="var-name">App Version</span>
+                                <span class="var-example">"v2.5.1"</span>
+                            </li>
+                            <li>
+                                <span class="var-name">Mobile Device Type</span>
+                                <span class="var-example">"iPhone 14"</span>
+                            </li>
+                            <li>
+                                <span class="var-name">Operating System</span>
+                                <span class="var-example">"iOS 17"</span>
+                            </li>
+                            <li>
+                                <span class="var-name">Country</span>
+                                <span class="var-example">"USA"</span>
+                            </li>
+                        </ul>
+                    </div>
+                   
+                    <div class="data-section metrics">
+                        <h4>📈 Metrics (HOW MUCH - Numerical Values)</h4>
+                        <ul>
+                            <li>
+                                <span class="var-name">App Launches</span>
+                                <span class="var-example">15,000</span>
+                            </li>
+                            <li>
+                                <span class="var-name">Screen Views</span>
+                                <span class="var-example">45,000</span>
+                            </li>
+                            <li>
+                                <span class="var-name">In-App Purchases</span>
+                                <span class="var-example">$8,500</span>
+                            </li>
+                        </ul>
+                    </div>
+                   
+                    <div class="data-section events">
+                        <h4>⚡ Events (User Actions)</h4>
+                        <ul>
+                            <li>
+                                <span class="var-name">App Install</span>
+                                <span class="var-example">New Installation</span>
+                            </li>
+                            <li>
+                                <span class="var-name">App Login</span>
+                                <span class="var-example">User Authentication</span>
+                            </li>
+                            <li>
+                                <span class="var-name">Purchase</span>
+                                <span class="var-example">Completed Order</span>
+                            </li>
+                            <li>
+                                <span class="var-name">Add to Wishlist</span>
+                                <span class="var-example">Saved Item</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <!-- Legend -->
+        <div class="legend">
+            <h3>Legend</h3>
+            <div class="legend-grid">
+                <div class="legend-item">
+                    <div class="legend-color org"></div>
+                    <span>Organization Level</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color rs"></div>
+                    <span>Report Suites</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color dim"></div>
+                    <span>Dimensions (WHAT)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color met"></div>
+                    <span>Metrics (HOW MUCH)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color evt"></div>
+                    <span>Events (Actions)</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
